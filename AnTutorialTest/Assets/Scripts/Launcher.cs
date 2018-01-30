@@ -16,6 +16,13 @@ namespace SteveProStudios.AnTutorialTest
 		public byte MaxPlayersPerRoom = 4;
 
 
+		[Tooltip("The Ui Panel to let the user enter name, connect and play")]
+		public GameObject controlPanel;
+
+		[Tooltip("The UI Label to inform the user that the connection is in progress")]
+		public GameObject progressLabel;
+
+
 		/// <summary>
 		/// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
 		/// </summary>
@@ -42,7 +49,8 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		private void Start()
 		{
-			//Connect();
+			progressLabel.SetActive(false);
+			controlPanel.SetActive(true);
 		}
 
 		/// <summary>
@@ -52,6 +60,9 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		public void Connect()
 		{
+			progressLabel.SetActive(true);
+			controlPanel.SetActive(false);
+
 			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 			if (PhotonNetwork.connected)
 			{
@@ -96,6 +107,8 @@ namespace SteveProStudios.AnTutorialTest
 			Debug.LogError("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
 
 			// #Critical: we failed to connect or got disconnected. There is not much we can do. Typically, a UI system should be in place to let the user attemp to connect again.
+			progressLabel.SetActive(false);
+			controlPanel.SetActive(true);
 		}
 
 		/// <summary>
