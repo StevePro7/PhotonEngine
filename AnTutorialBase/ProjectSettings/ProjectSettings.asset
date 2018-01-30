@@ -148,8 +148,8 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.steveproxna.test
-    iOS: com.steveproxna.test
+    Android: com.steveproxna.base
+    iOS: com.steveproxna.base
   buildNumber: {}
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 23
