@@ -1,12 +1,21 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace SteveProStudios.AnTutorialTest
 {
 	public class Launcher : Photon.PunBehaviour
 	{
+		/// <summary>
+		/// The PUN loglevel.
+		/// </summary>
+		public PhotonLogLevel Loglevel = PhotonLogLevel.Full;
+
+		/// <summary>
+		/// The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created.
+		/// </summary>
+		[Tooltip("The maximum number of players per room. When a room is full, it can't be joined by new players, and so new room will be created")]
+		public byte MaxPlayersPerRoom = 4;
+
+
 		/// <summary>
 		/// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
 		/// </summary>
@@ -17,6 +26,8 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		private void Awake()
 		{
+			PhotonNetwork.logLevel = Loglevel;
+
 			// We don't join the lobby.  There is no need to join a lobby to get the list of rooms
 			PhotonNetwork.autoJoinLobby = false;
 
@@ -55,7 +66,7 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		public override void OnConnectedToMaster()
 		{
-			Debug.LogWarning("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
+			Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
 
 			// The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()  
 			PhotonNetwork.JoinRandomRoom();
@@ -66,7 +77,7 @@ namespace SteveProStudios.AnTutorialTest
 			Debug.LogError("DemoAnimator/Launcher:OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
 
 			// #Critical: we failed to join a random room, maybe none exists or they are all full. No worries, we create a new room.
-			PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = 4 }, null);
+			PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
 		}
 
 		/// <summary>
