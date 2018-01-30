@@ -28,10 +28,12 @@ namespace SteveProStudios.AnTutorialTest
 		{
 			PhotonNetwork.logLevel = Loglevel;
 
-			// We don't join the lobby.  There is no need to join a lobby to get the list of rooms
+			// #Critical
+			// we don't join the lobby. There is no need to join a lobby to get the list of rooms.
 			PhotonNetwork.autoJoinLobby = false;
 
-			// This makes sure we can use LoadLevel on the master client and all clients in the same room sync their level automatically
+			// #Critical
+			// this makes sure we can use PhotonNetwork.LoadLevel() on the master client and all clients in the same room sync their level automatically
 			PhotonNetwork.automaticallySyncScene = true;
 		}
 
@@ -50,13 +52,15 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		private void Connect()
 		{
-			// Check if connected or not: join if we are connected else initiate the connection to the server
+			// we check if we are connected or not, we join if we are , else we initiate the connection to the server.
 			if (PhotonNetwork.connected)
 			{
+				// #Critical we need at this point to attempt joining a Random Room. If it fails, we'll get notified in OnPhotonRandomJoinFailed() and we'll create one.
 				PhotonNetwork.JoinRandomRoom();
 			}
 			else
 			{
+				// #Critical, we must first and foremost connect to Photon Online Server.
 				PhotonNetwork.ConnectUsingSettings(_gameVersion);
 			}
 		}
@@ -68,7 +72,7 @@ namespace SteveProStudios.AnTutorialTest
 		{
 			Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
 
-			// The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()  
+			// #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()
 			PhotonNetwork.JoinRandomRoom();
 		}
 
@@ -90,6 +94,8 @@ namespace SteveProStudios.AnTutorialTest
 		public override void OnDisconnectedFromPhoton()
 		{
 			Debug.LogError("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
+
+			// #Critical: we failed to connect or got disconnected. There is not much we can do. Typically, a UI system should be in place to let the user attemp to connect again.
 		}
 
 		/// <summary>
@@ -106,6 +112,8 @@ namespace SteveProStudios.AnTutorialTest
 		public override void OnJoinedRoom()
 		{
 			Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() was called by PUN.  Now this client is in a room");
+
+			// #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
 		}
 
 	}
