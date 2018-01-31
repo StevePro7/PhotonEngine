@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace SteveProStudios.AnTutorialTest
 {
-	public class PlayerManager : Photon.PunBehaviour
+	public class PlayerManager : Photon.PunBehaviour, IPunObservable
 	{
 		[Tooltip("The Beams GameObject to control")]
 		public GameObject Beams;
@@ -135,6 +136,22 @@ namespace SteveProStudios.AnTutorialTest
 				{
 					IsFiring = false;
 				}
+			}
+		}
+
+		public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+		{
+			if (stream.isWriting)
+			{
+				// We own this player: send the others our data
+				stream.SendNext(IsFiring);
+				stream.SendNext(Health);
+			}
+			else
+			{
+				// Network player, receive data
+				IsFiring = (bool)stream.ReceiveNext();
+				Health = (float)stream.ReceiveNext();
 			}
 		}
 	}
