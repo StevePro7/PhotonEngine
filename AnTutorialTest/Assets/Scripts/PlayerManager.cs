@@ -8,6 +8,9 @@ namespace SteveProStudios.AnTutorialTest
 {
 	public class PlayerManager : Photon.PunBehaviour, IPunObservable
 	{
+		[Tooltip("The Player's UI GameObject Prefab")]
+		public GameObject PlayerUiPrefab;
+
 		[Tooltip("The Beams GameObject to control")]
 		public GameObject Beams;
 
@@ -62,6 +65,17 @@ namespace SteveProStudios.AnTutorialTest
 			else
 			{
 				Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
+			}
+
+			// Create the UI
+			if (PlayerUiPrefab != null)
+			{
+				GameObject _uiGo = Instantiate(PlayerUiPrefab) as GameObject;
+				_uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+			}
+			else
+			{
+				Debug.LogWarning("<Color=Red><b>Missing</b></Color> PlayerUiPrefab reference on player Prefab.", this);
 			}
 
 #if UNITY_MIN_5_4
@@ -156,6 +170,9 @@ namespace SteveProStudios.AnTutorialTest
 			{
 				transform.position = new Vector3(0f, 5f, 0f);
 			}
+
+			GameObject _uiGo = Instantiate(PlayerUiPrefab) as GameObject;
+			_uiGo.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
 		}
 
 		/// <summary>
