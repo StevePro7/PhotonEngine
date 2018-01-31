@@ -1,57 +1,61 @@
 ﻿using UnityEngine;
 
-public class PlayerAnimatorManager : MonoBehaviour
+namespace SteveProStudios.AnTutorialTest
 {
-	public float DirectionDampTime = 0.25f;
-
-	private Animator animator;
-
-	/// <summary>
-	/// MonoBehaviour method called on GameObject by Unity during initialization phase.
-	/// </summary>
-	void Start ()
+	public class PlayerAnimatorManager : MonoBehaviour
 	{
-		animator = GetComponent<Animator>();
-		if (!animator)
-		{
-			Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
-		}
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		// failSafe is missing Animator component on GameObject
-		if (!animator)
-		{
-			return;
-		}
+		public float DirectionDampTime = 0.25f;
 
-		// deal with Jumping
-		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+		private Animator animator;
 
-		// only allow jumping if we are running.
-		if (stateInfo.IsName("Base Layer.Run"))
+		/// <summary>
+		/// MonoBehaviour method called on GameObject by Unity during initialization phase.
+		/// </summary>
+		void Start()
 		{
-			// When using trigger parameter
-			if (Input.GetButtonDown("Fire2"))
+			animator = GetComponent<Animator>();
+			if (!animator)
 			{
-				animator.SetTrigger("Jump");
+				Debug.LogError("PlayerAnimatorManager is Missing Animator Component", this);
 			}
 		}
 
-		// deal with movement
-		float h = Input.GetAxis("Horizontal");
-		float v = Input.GetAxis("Vertical");
-
-		// prevent negative Speed.
-		if (v < 0)
+		// Update is called once per frame
+		void Update()
 		{
-			v = 0;
-		}
+			// failSafe is missing Animator component on GameObject
+			if (!animator)
+			{
+				return;
+			}
 
-		// set the Animator Parameters
-		animator.SetFloat("Speed", h * h + v * v);
-		animator.SetFloat("Direction", h, DirectionDampTime, Time.deltaTime);
+			// deal with Jumping
+			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+			// only allow jumping if we are running.
+			if (stateInfo.IsName("Base Layer.Run"))
+			{
+				// When using trigger parameter
+				if (Input.GetButtonDown("Fire2"))
+				{
+					animator.SetTrigger("Jump");
+				}
+			}
+
+			// deal with movement
+			float h = Input.GetAxis("Horizontal");
+			float v = Input.GetAxis("Vertical");
+
+			// prevent negative Speed.
+			if (v < 0)
+			{
+				v = 0;
+			}
+
+			// set the Animator Parameters
+			animator.SetFloat("Speed", h * h + v * v);
+			animator.SetFloat("Direction", h, DirectionDampTime, Time.deltaTime);
+		}
 	}
+
 }
