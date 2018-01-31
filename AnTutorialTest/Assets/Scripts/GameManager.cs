@@ -20,5 +20,18 @@ namespace SteveProStudios.AnTutorialTest
 		{
 			PhotonNetwork.LeaveRoom();
 		}
+
+
+		private void LoadArena()
+		{
+			if (!PhotonNetwork.isMasterClient)
+			{
+				Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+			}
+
+			Debug.Log("PhotonNetwork : Loading Level : " + PhotonNetwork.room.PlayerCount);
+			PhotonNetwork.LoadLevel("Room for " + PhotonNetwork.room.PlayerCount);
+		}
+
 	}
 }
