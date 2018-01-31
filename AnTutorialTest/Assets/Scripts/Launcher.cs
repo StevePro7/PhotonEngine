@@ -24,6 +24,13 @@ namespace SteveProStudios.AnTutorialTest
 
 
 		/// <summary>
+		/// Keep track of the current process. Since connection is asynchronous and is based on several callbacks from Photon, 
+		/// we need to keep track of this to properly adjust the behavior when we receive call back by Photon.
+		/// Typically this is used for the OnConnectedToMaster() callback.
+		/// </summary>
+		bool isConnecting;
+
+		/// <summary>
 		/// This client's version number. Users are separated from each other by gameversion (which allows you to make breaking changes).
 		/// </summary>
 		string _gameVersion = "1";
@@ -60,6 +67,8 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		public void Connect()
 		{
+			isConnecting = true;
+
 			progressLabel.SetActive(true);
 			controlPanel.SetActive(false);
 
@@ -81,10 +90,18 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		public override void OnConnectedToMaster()
 		{
-			Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
+			Debug.Log("Region:" + PhotonNetwork.networkingPeer.CloudRegion);
 
-			// #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()
-			PhotonNetwork.JoinRandomRoom();
+			// we don't want to do anything if we are not attempting to join a room. 
+			// this case where isConnecting is false is typically when you lost or quit the game, when this level is loaded, OnConnectedToMaster will be called, in that case
+			// we don't want to do anything.
+			if (isConnecting)
+			{
+				Debug.Log("DemoAnimator/Launcher: OnConnectedToMaster() was called by PUN");
+
+				// #Critical: The first we try to do is to join a potential existing room. If there is, good, else, we'll be called back with OnPhotonRandomJoinFailed()
+				PhotonNetwork.JoinRandomRoom();
+			}
 		}
 
 		public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -106,7 +123,8 @@ namespace SteveProStudios.AnTutorialTest
 		{
 			Debug.LogError("DemoAnimator/Launcher: OnDisconnectedFromPhoton() was called by PUN");
 
-			// #Critical: we failed to connect or got disconnected. There is not much we can do. Typically, a UI system should be in place to let the user attemp to connect again.
+			// #Critical: we failed to connect or got disconnected. There is not much we can do. Typically, a UI system should be in place to let the user attempt to connect again.
+			isConnecting = false;
 			progressLabel.SetActive(false);
 			controlPanel.SetActive(true);
 		}
