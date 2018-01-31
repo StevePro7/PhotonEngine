@@ -68,7 +68,26 @@ public class CameraWork : MonoBehaviour
 	/// </summary>
 	public void OnStartFollowing()
 	{
-		
 		cameraTransform = Camera.main.transform;
+		isFollowing = true;
+
+		// we don't smooth anything, we go straight to the right camera shot
+		Cut();
+	}
+
+	/// <summary>
+	/// Follow the target smoothly
+	/// </summary>
+	private void Apply()
+	{
+
+	}
+
+	/// <summary>
+	/// Directly position the camera to a the specified Target and center.
+	/// </summary>
+	private void Cut()
+	{
+
 	}
 }

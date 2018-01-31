@@ -30,9 +30,6 @@ public class PlayerAnimatorManager : MonoBehaviour
 		// deal with Jumping
 		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-		// deal with Jumping
-		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
 		// only allow jumping if we are running.
 		if (stateInfo.IsName("Base Layer.Run"))
 		{
