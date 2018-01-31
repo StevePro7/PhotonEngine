@@ -1,4 +1,7 @@
-﻿using System;
+﻿#if UNITY_5 && (!UNITY_5_0 && !UNITY_5_1 && !UNITY_5_2 && !UNITY_5_3) || UNITY_2017
+#define UNITY_MIN_5_4
+#endif
+
 using UnityEngine;
 
 namespace SteveProStudios.AnTutorialTest
@@ -10,6 +13,9 @@ namespace SteveProStudios.AnTutorialTest
 
 		[Tooltip("The current Health of our player")]
 		public float Health = 1f;
+
+		[Tooltip("The local player instance. Use this to know if the local player is represented in the Scene")]
+		public static GameObject LocalPlayerInstance;
 
 		// True, when the user is firing
 		private bool IsFiring;
@@ -27,6 +33,17 @@ namespace SteveProStudios.AnTutorialTest
 			{
 				Beams.SetActive(false);
 			}
+
+			// #Important
+			// used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+			if (photonView.isMine)
+			{
+				PlayerManager.LocalPlayerInstance = this.gameObject;
+			}
+
+			// #Critical
+			// we flag as don't destroy on load so that instance survives level synchronization, thus giving a seamless experience when levels load
+			DontDestroyOnLoad(this.gameObject);
 		}
 
 		/// <summary>
@@ -46,6 +63,14 @@ namespace SteveProStudios.AnTutorialTest
 			{
 				Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
 			}
+
+#if UNITY_MIN_5_4
+			// Unity 5.4 has a new scene management. register a method to call CalledOnLevelWasLoaded
+			UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, loadingMode) =>
+			{
+				this.CalledOnLevelWasLoaded(scene.buildIndex);
+			};
+#endif
 		}
 
 		/// <summary>
@@ -116,6 +141,21 @@ namespace SteveProStudios.AnTutorialTest
 
 			// we slowly affect health when beam is constantly hitting us, so player has to move to prevent death.
 			Health -= 0.1f * Time.deltaTime;
+		}
+
+		/// <summary>
+		/// MonoBehaviour method called after a new level of index 'level' was loaded.
+		/// We recreate the Player UI because it was destroy when we switched level.
+		/// Also reposition the player if outside the current arena.
+		/// </summary>
+		/// <param name="level">Level index loaded</param>
+		private void CalledOnLevelWasLoaded(int level)
+		{
+			// check if we are outside the Arena and if it's the case, spawn around the center of the arena in a safe zone
+			if (!Physics.Raycast(transform.position, -Vector3.up, 5f))
+			{
+				transform.position = new Vector3(0f, 5f, 0f);
+			}
 		}
 
 		/// <summary>

@@ -28,10 +28,19 @@ namespace SteveProStudios.AnTutorialTest
 			}
 			else
 			{
-				Debug.Log("We are Instantiating LocalPlayer from " + SceneManagerHelper.ActiveSceneName);
+				if (PlayerManager.LocalPlayerInstance == null)
+				{
+					Debug.Log("We are Instantiating LocalPlayer from " + SceneManagerHelper.ActiveSceneName);
 
-				// we're in a room. spawn a character for the local player. it gets synced by PhotonNetwork.Instatiate
-				PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+					// we're in a room. spawn a character for the local player. it gets synced by PhotonNetwork.Instatiate
+					PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+				}
+				else
+				{
+					Debug.Log("Ignoring scene load for " + SceneManagerHelper.ActiveSceneName);
+				}
+
+				
 			}
 		}
 
