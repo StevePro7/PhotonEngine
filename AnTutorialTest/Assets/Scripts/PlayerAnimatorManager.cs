@@ -2,7 +2,7 @@
 
 namespace SteveProStudios.AnTutorialTest
 {
-	public class PlayerAnimatorManager : MonoBehaviour
+	public class PlayerAnimatorManager : Photon.MonoBehaviour
 	{
 		public float DirectionDampTime = 0.25f;
 
@@ -23,6 +23,12 @@ namespace SteveProStudios.AnTutorialTest
 		// Update is called once per frame
 		void Update()
 		{
+			// Prevent control is connected to Photon and represent the localPlayer 
+			if (photonView.isMine == false && PhotonNetwork.connected == true)
+			{
+				return;
+			}
+
 			// failSafe is missing Animator component on GameObject
 			if (!animator)
 			{

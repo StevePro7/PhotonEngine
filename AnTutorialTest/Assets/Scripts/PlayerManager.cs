@@ -29,15 +29,38 @@ namespace SteveProStudios.AnTutorialTest
 		}
 
 		/// <summary>
+		/// MonoBehaviour method called on GameObject by Unity during initialization phase.
+		/// </summary>
+		private void Start()
+		{
+			CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
+			if (_cameraWork != null)
+			{
+				if (photonView.isMine)
+				{
+					_cameraWork.OnStartFollowing();
+				}
+			}
+			else
+			{
+				Debug.LogError("<Color=Red><b>Missing</b></Color> CameraWork Component on player Prefab.", this);
+			}
+		}
+
+		/// <summary>
 		/// MonoBehaviour method called on GameObject by Unity on every frame.
 		/// </summary>
 		void Update()
 		{
-			ProcessInputs();
-
-			if (Health <= 0f)
+			// we only process Inputs and check health if we are the local player
+			if (photonView.isMine)
 			{
-				GameManager.Instance.LeaveRoom();
+				ProcessInputs();
+
+				if (Health <= 0f)
+				{
+					GameManager.Instance.LeaveRoom();
+				}
 			}
 
 			// trigger Beans active state
