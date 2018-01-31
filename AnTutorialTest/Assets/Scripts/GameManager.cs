@@ -5,24 +5,24 @@ namespace SteveProStudios.AnTutorialTest
 {
 	public class GameManager : Photon.PunBehaviour
 	{
+		public static GameManager Instance;
+
+		private void Start()
+		{
+			Instance = this;
+		}
 
 		/// <summary>
-		/// Called when the local player left the room. We need to load the launcher scene.
+		/// MonoBehaviour method called on GameObject by Unity on every frame.
 		/// </summary>
-		public override void OnLeftRoom()
-		{
-			SceneManager.LoadScene(0);
-		}
-
-		public void LeaveRoom()
-		{
-			PhotonNetwork.LeaveRoom();
-		}
-
 		private void Update()
 		{
+			// "back" button of phone equals "Escape". quit app if that's pressed
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				QuitApplication();
+			}
 		}
-
 
 		/// <summary>
 		/// Called when a Photon Player got connected. We need to then load a bigger scene.
@@ -55,7 +55,23 @@ namespace SteveProStudios.AnTutorialTest
 			}
 		}
 
+		/// <summary>
+		/// Called when the local player left the room. We need to load the launcher scene.
+		/// </summary>
+		public override void OnLeftRoom()
+		{
+			SceneManager.LoadScene(0);
+		}
 
+		public void LeaveRoom()
+		{
+			PhotonNetwork.LeaveRoom();
+		}
+
+		private void QuitApplication()
+		{
+			Application.Quit();
+		}
 
 		private void LoadArena()
 		{
