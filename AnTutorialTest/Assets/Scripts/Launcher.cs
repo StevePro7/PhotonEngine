@@ -127,6 +127,14 @@ namespace SteveProStudios.AnTutorialTest
 			Debug.Log("DemoAnimator/Launcher: OnJoinedRoom() was called by PUN.  Now this client is in a room");
 
 			// #Critical: We only load if we are the first player, else we rely on  PhotonNetwork.automaticallySyncScene to sync our instance scene.
+			if (1 == PhotonNetwork.room.PlayerCount)
+			{
+				Debug.Log("We load the 'Room for 1' ");
+
+				// #Critical
+				// Load the Room Level. 
+				PhotonNetwork.LoadLevel("Room for 1");
+			}
 		}
 
 	}
