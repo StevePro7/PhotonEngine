@@ -18,13 +18,13 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		private void Awake()
 		{
-			if (this.Beams == null)
+			if (Beams == null)
 			{
 				Debug.LogError("<Color=Red><b>Missing</b></Color> Beams Reference.", this);
 			}
 			else
 			{
-				this.Beams.SetActive(false);
+				Beams.SetActive(false);
 			}
 		}
 
@@ -34,6 +34,11 @@ namespace SteveProStudios.AnTutorialTest
 		void Update()
 		{
 			ProcessInputs();
+
+			if (Health <= 0f)
+			{
+				GameManager.Instance.LeaveRoom();
+			}
 
 			// trigger Beans active state
 			if (Beams != null && IsFiring != Beams.GetActive())
