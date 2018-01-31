@@ -264,42 +264,38 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 400096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+    - target: {fileID: 4466616191918182, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 100096, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
-      propertyPath: m_Name
-      value: My Robot Kyle
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 23e58c2e3db95f94ca80ef683c7a1294, type: 3}
+  m_ParentPrefab: {fileID: 100100000, guid: 876a96d851e94c7459a55384c3fd1063, type: 2}
   m_IsPrefabParent: 0
