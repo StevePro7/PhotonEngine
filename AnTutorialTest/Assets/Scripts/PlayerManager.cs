@@ -39,7 +39,7 @@ namespace SteveProStudios.AnTutorialTest
 
 			// #Important
 			// used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
-			if (photonView.isMine)
+			if (photonView != null && photonView.isMine)
 			{
 				PlayerManager.LocalPlayerInstance = this.gameObject;
 			}
@@ -57,7 +57,7 @@ namespace SteveProStudios.AnTutorialTest
 			CameraWork _cameraWork = this.gameObject.GetComponent<CameraWork>();
 			if (_cameraWork != null)
 			{
-				if (photonView.isMine)
+				if (photonView != null && photonView.isMine)
 				{
 					_cameraWork.OnStartFollowing();
 				}
@@ -93,7 +93,7 @@ namespace SteveProStudios.AnTutorialTest
 		void Update()
 		{
 			// we only process Inputs and check health if we are the local player
-			if (photonView.isMine)
+			if (photonView != null && photonView.isMine)
 			{
 				ProcessInputs();
 
@@ -118,7 +118,7 @@ namespace SteveProStudios.AnTutorialTest
 		/// </summary>
 		private void OnTriggerEnter(Collider other)
 		{
-			if (!photonView.isMine)
+			if (photonView != null && photonView.isMine)
 			{
 				return;
 			}
@@ -141,7 +141,7 @@ namespace SteveProStudios.AnTutorialTest
 		private void OnTriggerStay(Collider other)
 		{
 			// we don't do anything if we are not the local player
-			if (!photonView.isMine)
+			if (photonView != null && photonView.isMine)
 			{
 				return;
 			}
