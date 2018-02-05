@@ -1,5 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
+//using UnityEngine.XR;
+#if UNITY_2017_2_OR_NEWER
+using UnityEngine.XR;
+#else
 using UnityEngine.VR;
+#endif
 
 namespace ExitGames.SportShooting
 {
@@ -33,19 +39,29 @@ namespace ExitGames.SportShooting
                 _playerPrefab = _nonVrPlayerPrefab;
                 return;
             }
-            #else
+#else
             useNonVrPlayerInEditor = false;
-            #endif
+#endif
 
-            #if UNITY_STANDALONE
-            if (UnityEngine.XR.XRSettings.loadedDevice == VRDeviceType.Oculus)
-            {             
-                _playerPrefab = _ovrPlayerPrefab;
-            }
-            else
-            {            
-                _playerPrefab = _steamVrPlayerPrefab;
-            }
+#if UNITY_STANDALONE
+			var names = XRSettings.supportedDevices;
+			var name = XRSettings.loadedDeviceName;
+			if (names.Any(name.Contains))
+			{
+				_playerPrefab = _ovrPlayerPrefab;
+			}
+			else
+			{
+				_playerPrefab = _steamVrPlayerPrefab;
+			}
+			//if (UnityEngine.XR.XRSettings.loadedDevice == VRDeviceType.Oculus)
+			//{
+			//	_playerPrefab = _ovrPlayerPrefab;
+			//}
+			//else
+   //         {            
+   //             _playerPrefab = _steamVrPlayerPrefab;
+   //         }
             #elif UNITY_HAS_GOOGLEVR && (UNITY_ANDROID || UNITY_EDITOR)
             _playerPrefab = _googleVrPlayerPrefab;           
             #endif

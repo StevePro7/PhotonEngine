@@ -288,11 +288,11 @@ public class OVRLint : EditorWindow
 		}
 #endif
 
-		if ((!PlayerSettings.MTRendering || !PlayerSettings.mobileMTRendering))
+		if ((!PlayerSettings.MTRendering) /* || !PlayerSettings.mobileMTRendering) */)
 		{
 		    AddFix ("Optimize MT Rendering", "For CPU performance, please enable multithreaded rendering.", delegate(UnityEngine.Object obj, bool last, int selected)
 		    {
-				PlayerSettings.MTRendering = PlayerSettings.mobileMTRendering = true;
+				PlayerSettings.MTRendering = true;// PlayerSettings.mobileMTRendering = true;
 			}, null, "Fix");
 		}
 
