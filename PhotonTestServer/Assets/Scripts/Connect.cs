@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Connect : MonoBehaviour
+public class Connect : Photon.PunBehaviour
 {
 	string _gameVersion = "1";
 
@@ -10,6 +10,7 @@ public class Connect : MonoBehaviour
 	void Start ()
 	{
 		PhotonNetwork.ConnectUsingSettings(_gameVersion);
+		PhotonNetwork.automaticallySyncScene = true;
 	}
 	
 	// Update is called once per frame
